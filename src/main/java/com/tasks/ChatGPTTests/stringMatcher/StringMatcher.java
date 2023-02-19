@@ -6,8 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
-
 public class StringMatcher {
 
     public static List<String> findDollarStrings(String input) {
