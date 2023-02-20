@@ -135,6 +135,16 @@ try {
         }
     }
 
+    public static String convertExcelByteArrayToString(byte[] excelByteArray) {
+        try (InputStream is = new ByteArrayInputStream(excelByteArray)) {
+            Workbook workbook = WorkbookFactory.create(is);
+            XSSFSheet sheet = new XSSFWorkbook(workbook).getSheetAt(0);
+            return sheet.getRow(0).getCell(0).getStringCellValue();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
 
 
 }
