@@ -262,6 +262,14 @@ try {
         return values;
     }
 
+    List<String> firstField = Arrays.asList("string1", "string2", "string3");
+    List<String> secondField = Arrays.asList("second1", "second2", "second3");
+
+    List<MyObject> myObjects = IntStream.range(0, firstField.size())
+            .mapToObj(i -> new MyObject(firstField.get(i), secondField.get(i)))
+            .collect(Collectors.toList());
+
+
 
 
 }
