@@ -146,5 +146,30 @@ try {
         }
 
 
+        public static String convertExcelByteToString(byte[] excelBytes) {
+            try {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(excelBytes);
+                Workbook workbook = WorkbookFactory.create(inputStream);
+
+                Sheet sheet = workbook.getSheetAt(0);
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (Row row : sheet) {
+                    for (Cell cell : row) {
+                        stringBuilder.append(cell.getStringCellValue()).append("\t");
+                    }
+                    stringBuilder.append("\n");
+                }
+
+                inputStream.close();
+
+                return stringBuilder.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+
 
 }
