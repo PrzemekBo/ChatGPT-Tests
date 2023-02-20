@@ -172,4 +172,35 @@ try {
 
 
 
-}
+
+            public static String convertExcelByteToString5
+                try {
+                    ByteArrayInputStream inputStream = new ByteArrayInputStream(excelBytes);
+                    Workbook workbook = WorkbookFactory.create(inputStream);
+                    DataFormatter dataFormatter = new DataFormatter();
+
+                    Sheet sheet = workbook.getSheetAt(0);
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    for (Row row : sheet) {
+                        for (Cell cell : row) {
+                            String cellValue = dataFormatter.formatCellValue(cell);
+                            stringBuilder.append(cellValue).append("\t");
+                        }
+                        stringBuilder.append("\n");
+                    }
+
+                    inputStream.close();
+
+                    return stringBuilder.toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+
+
+
+
+    }
