@@ -1,6 +1,7 @@
 package com.tasks.ChatGPTTests;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -120,6 +121,20 @@ try {
         }
         return excelString;
     }
+
+
+
+    public static String convertExcelByteArrayToString(byte[] excelByteArray) {
+        try (InputStream is = new ByteArrayInputStream(excelByteArray)) {
+            Workbook workbook = WorkbookFactory.create(is);
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(workbook);
+            return xssfWorkbook.getSheetAt(0).getRow(0).getCell(0).getStringCellValue();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }
