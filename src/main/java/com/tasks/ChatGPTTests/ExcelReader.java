@@ -74,4 +74,27 @@ try {
         return excelString;
     }
 
+    public static String convertExcelByteArrayToString2(byte[] excelByteArray) {
+        Workbook workbook = null;
+        String excelString = null;
+        try {
+            workbook = WorkbookFactory.create(new ByteArrayInputStream(excelByteArray));
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            byte[] bytes = out.toByteArray();
+            excelString = new String(bytes, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (workbook != null) {
+                    workbook.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return excelString;
+    }
+
 }
