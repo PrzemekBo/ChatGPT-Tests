@@ -3,8 +3,10 @@ package com.tasks.ChatGPTTests;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ExcelReader {
     public static void main(String[] args) throws IOException {
@@ -48,5 +50,28 @@ try {
     } catch (IOException e) {
         e.printStackTrace();
     }*/
+
+    public static String convertExcelByteArrayToString(byte[] excelByteArray) {
+        Workbook workbook = null;
+        String excelString = null;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            workbook = WorkbookFactory.create(new ByteArrayInputStream(excelByteArray));
+            workbook.write(out);
+            excelString = out.toString(StandardCharsets.UTF_8.name());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (workbook != null) {
+                    workbook.close();
+                }
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return excelString;
+    }
 
 }
