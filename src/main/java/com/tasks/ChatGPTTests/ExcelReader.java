@@ -359,6 +359,15 @@ try {
 myObjects.removeIf(obj -> certainCharacters.stream()
             .anyMatch(c -> obj.getFirstField().contains(c)));
 
+    public List<String> getSecondFieldsWithoutCertainCharacters(List<MyObject> myObjects, List<String> certainCharacters) {
+        return myObjects.stream()
+                .filter(obj -> certainCharacters.stream()
+                        .noneMatch(c -> obj.getFirstField().contains(c)))
+                .map(MyObject::getSecondField)
+                .collect(Collectors.toList());
+    }
+
+
 
 
 
