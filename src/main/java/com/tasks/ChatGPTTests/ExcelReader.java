@@ -235,4 +235,33 @@ try {
     }
 
 
+
+    public static List<String> readColumnValues(byte[] fileData, String columnName) throws IOException {
+        List<String> values = new ArrayList<>();
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(fileData));
+        Sheet sheet = workbook.getSheetAt(0); // Assuming the first sheet is the one you want to read from
+        int columnIndex = -1;
+        Row headerRow = sheet.getRow(0);
+        for (Cell cell : headerRow) {
+            if (cell.getStringCellValue().equals(columnName)) {
+                columnIndex = cell.getColumnIndex();
+                break;
+            }
+        }
+        if (columnIndex == -1) {
+            throw new IllegalArgumentException("Column not found: " + columnName);
+        }
+        for (Row row : sheet) {
+            Cell cell = row.getCell(columnIndex);
+            if (cell != null) {
+                String value = cell.getStringCellValue();
+                values.add(value);
+            }
+        }
+        workbook.close();
+        return values;
+    }
+
+
+
 }
