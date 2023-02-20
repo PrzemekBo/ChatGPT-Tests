@@ -24,4 +24,29 @@ public class ExcelReader {
         workbook.close();
         inputStream.close();
     }
+
+
+    import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+ /*   // assuming you have the byte array of the Excel file in a variable called excelByteArray
+    byte[] excelByteArray = ...;
+
+    // load the byte array into a Workbook object
+    Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(excelByteArray));
+
+    // convert the Workbook object to a String
+    String excelString = null;
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+try {
+        workbook.write(out);
+        excelString = out.toString(StandardCharsets.UTF_8.name());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }*/
+
 }
