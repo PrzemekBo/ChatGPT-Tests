@@ -173,7 +173,7 @@ try {
 
 
 
-            public static String convertExcelByteToString5
+            public static String convertExcelByteToString5(byte[] excelBytes) {
                 try {
                     ByteArrayInputStream inputStream = new ByteArrayInputStream(excelBytes);
                     Workbook workbook = WorkbookFactory.create(inputStream);
@@ -199,6 +199,24 @@ try {
                 }
             }
         }
+
+
+    public static List<String> readFirstColumnValues(String filePath) throws IOException {
+        List<String> values = new ArrayList<>();
+        FileInputStream inputStream = new FileInputStream(new File(filePath));
+        Workbook workbook = WorkbookFactory.create(inputStream);
+        Sheet sheet = workbook.getSheetAt(0); // Assuming the first sheet is the one you want to read from
+        for (Row row : sheet) {
+            Cell cell = row.getCell(0); // Get the first cell of each row
+            if (cell != null) {
+                String value = cell.getStringCellValue(); // Get the string value of the cell
+                values.add(value);
+            }
+        }
+        workbook.close();
+        inputStream.close();
+        return values;
+    }
 
 
 
