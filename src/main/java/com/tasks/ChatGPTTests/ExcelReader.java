@@ -271,5 +271,54 @@ try {
 
 
 
+    public static byte[] removeRowsAndReturnByteArray(byte[] fileData, String charactersToRemove) throws IOException {
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(fileData));
+        Sheet sheet = workbook.getSheetAt(0); // Assuming the first sheet is the one you want to modify
+        List<Row> rowsToRemove = new ArrayList<>();
+        for (Row row : sheet) {
+            Cell cell = row.getCell(0); // Assuming the name is in the first column
+            if (cell != null && cell.getStringCellValue().contains(charactersToRemove)) {
+                rowsToRemove.add(row);
+            }
+        }
+        for (Row row : rowsToRemove) {
+            sheet.removeRow(row);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        byte[] outputData = outputStream.toByteArray();
+        outputStream.close();
+        return outputData;
+    }
+
+
+
+    public static byte[] removeRowsAndReturnByteArray(byte[] fileData, String charactersToRemove) throws IOException {
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(fileData));
+        Sheet sheet = workbook.getSheetAt(0); // Assuming the first sheet is the one you want to modify
+        Row headerRow = sheet.getRow(0);
+        sheet.removeRow(headerRow); // Remove the header row
+        List<Row> rowsToRemove = new ArrayList<>();
+        for (Row row : sheet) {
+            Cell cell = row.getCell(0); // Assuming the name is in the first column
+            if (cell != null && cell.getStringCellValue().contains(charactersToRemove)) {
+                rowsToRemove.add(row);
+            }
+        }
+        for (Row row : rowsToRemove) {
+            sheet.removeRow(row);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        byte[] outputData = outputStream.toByteArray();
+        outputStream.close();
+        return outputData;
+    }
+
+
+
+
 
 }
