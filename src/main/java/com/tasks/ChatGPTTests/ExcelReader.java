@@ -395,6 +395,22 @@ import java.util.List;
 
 
 
+    for (Row row : sheet) {
+        RowResponse rawResponse = new RowResponse();
+
+        rawResponse.setQuestions(row.getCell(0) != null ? row.getCell(0).getStringCellValue() : null);
+        rawResponse.setVariable(row.getCell(1) != null ? row.getCell(1).getStringCellValue() : null);
+        rawResponse.setCategory(row.getCell(2) != null ? row.getCell(2).getStringCellValue() : null);
+        rawResponse.setDataType(row.getCell(3) != null ? row.getCell(3).getStringCellValue() : null);
+        rawResponse.setComment(row.getCell(4) != null ? row.getCell(4).getStringCellValue() : null);
+        rawResponse.setDefaultValues(row.getCell(5) != null ? row.getCell(5).getStringCellValue() : null);
+
+        objects.add(rawResponse);
+    }
+
+
+
+
 
 
 
