@@ -497,6 +497,17 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
     }
 
 
+    public static List<String> filterObjects(List<MyObject> objects) {
+        List<String> filteredList = new ArrayList<>();
+        for (MyObject obj : objects) {
+            if (obj.getField2() == null && obj.getField3() == null) {
+                filteredList.add(obj.getField1());
+            }
+        }
+        return filteredList;
+    }
+
+
 
 
 
