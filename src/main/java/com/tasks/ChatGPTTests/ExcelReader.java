@@ -429,6 +429,31 @@ import java.util.List;
 
 
 
+    public static List<String> readColumnFromExcel(byte[] excelFile, String columnName) throws Exception {
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(excelFile));
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // Find the index of the specified column by name
+        int columnIndex = sheet.getRow(0).stream()
+                .filter(cell -> cell.getStringCellValue().equals(columnName))
+                .mapToInt(Cell::getColumnIndex)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Column name not found: " + columnName));
+
+        // Read the values from the specified column and remove duplicates
+        return sheet.stream()
+                .skip(1)
+                .map(row -> row.getCell(columnIndex))
+                .filter(cell -> cell != null)
+                .map(Cell::getStringCellValue)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
 
 
 
