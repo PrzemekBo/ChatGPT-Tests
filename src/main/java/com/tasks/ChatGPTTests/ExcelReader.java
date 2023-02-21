@@ -368,6 +368,34 @@ myObjects.removeIf(obj -> certainCharacters.stream()
     }
 
 
+    import org.apache.poi.ss.usermodel.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+    public List<MyObject> readExcel(byte[] file) throws IOException {
+        List<MyObject> objects = new ArrayList<>();
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(file));
+        Sheet sheet = workbook.getSheetAt(0);
+
+        for (Row row : sheet) {
+            MyObject object = new MyObject();
+            object.setField1(row.getCell(0).getStringCellValue());
+            object.setField2(row.getCell(1).getNumericCellValue());
+            object.setField3(row.getCell(2).getDateCellValue());
+            // Add more setField calls for additional columns
+
+            objects.add(object);
+        }
+
+        return objects;
+    }
+
+
+
+
 
 
 
