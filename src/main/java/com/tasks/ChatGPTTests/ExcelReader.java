@@ -456,6 +456,47 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
                 .collect(Collectors.toList());
     }
 
+    import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+    public List<String> getUniqueValuesFromColumn(byte[] excelFile, String columnName) throws IOException {
+        // Load the byte array into a ByteArrayInputStream to create a Workbook object
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(excelFile);
+        Workbook workbook = WorkbookFactory.create(inputStream);
+
+        // Get the first sheet in the workbook
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // Find the column index for the specified column name
+        int columnIndex = sheet.getRow(0).stream()
+                .filter(cell -> cell.getStringCellValue().equalsIgnoreCase(columnName))
+                .map(Cell::getColumnIndex)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Column not found: " + columnName));
+
+        // Use a stream to iterate over the rows in the sheet and extract the cell values
+        Set<String> uniqueValues = sheet.stream()
+                .skip(1) // skip the first row (headers)
+                .map(row -> row.getCell(columnIndex))
+                .filter(cell -> cell != null)
+                .map(Cell::getStringCellValue)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        // Convert the set to a list and return it
+        return new ArrayList<>(uniqueValues);
+    }
+
+
 
 
 
