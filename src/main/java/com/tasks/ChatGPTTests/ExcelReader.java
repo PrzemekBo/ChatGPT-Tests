@@ -409,6 +409,24 @@ import java.util.List;
     }
 
 
+    for (Row row : sheet) {
+        RowResponse rawResponse = new RowResponse();
+
+        Cell questionCell = row.getCell(0);
+        if (questionCell != null) {
+            if (questionCell.getCellType() == CellType.NUMERIC) {
+                rawResponse.setQuestions(Double.toString(questionCell.getNumericCellValue()));
+            } else {
+                rawResponse.setQuestions(questionCell.getStringCellValue());
+            }
+        }
+
+        // Repeat the same pattern for the other cells...
+
+        objects.add(rawResponse);
+    }
+
+
 
 
 
