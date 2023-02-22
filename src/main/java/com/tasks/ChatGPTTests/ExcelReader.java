@@ -507,6 +507,20 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
         return filteredList;
     }
 
+    public List<FinalObject> processRows(List<String> stringList, List<RowResponse> rowList) {
+        return stringList.stream()
+                .map(str -> {
+                    FinalObject finalObj = new FinalObject();
+                    finalObj.setName(str);
+                    finalObj.setRowResponses(rowList.stream()
+                            .filter(row -> str.equals(row.getName()) && str.equals(row.getText()))
+                            .collect(Collectors.toList()));
+                    return finalObj;
+                })
+                .collect(Collectors.toList());
+    }
+
+
 
 
 
