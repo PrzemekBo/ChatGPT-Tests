@@ -547,6 +547,25 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
         objectList.removeIf(obj -> stringList.contains(obj.getTitle()));
     }
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+    public class RawResponseModifier {
+
+        public static List<RawResponse> modifyRawResponses(List<RawResponse> rawResponses) {
+            return rawResponses.stream()
+                    .map(response -> {
+                        if (response.getCucu().equals("texxt")) {
+                            response.setCucu("text");
+                        } else if (response.getCucu().equals("ogon")) {
+                            response.setCucu("ogon 6");
+                        }
+                        return response;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+    }
 
 
 
