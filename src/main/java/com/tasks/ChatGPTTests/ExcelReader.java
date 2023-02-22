@@ -543,6 +543,12 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
     }
 
 
+    public static void removeObjectsWithTitles(List<MyObject> objectList, List<String> stringList) {
+        objectList.removeIf(obj -> stringList.contains(obj.getTitle()));
+    }
+
+
+
 
 
 
