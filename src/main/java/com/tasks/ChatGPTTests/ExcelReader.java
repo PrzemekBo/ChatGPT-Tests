@@ -521,6 +521,29 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
     }
 
 
+    public List<RowInfoResponse> generateRowInfoResponses(List<String> stringList, List<RowResponse> rowResponseList) {
+        List<RowInfoResponse> rowInfoResponseList = new ArrayList<>();
+
+        for (String title : stringList) {
+            RowInfoResponse rowInfoResponse = new RowInfoResponse();
+            rowInfoResponse.setTitle(title);
+
+            List<RowResponse> matchingRowResponses = new ArrayList<>();
+            for (RowResponse rowResponse : rowResponseList) {
+                if (rowResponse.getQuestions().equals(title)) {
+                    matchingRowResponses.add(rowResponse);
+                }
+            }
+
+            rowInfoResponse.setRowResponse(matchingRowResponses);
+            rowInfoResponseList.add(rowInfoResponse);
+        }
+
+        return rowInfoResponseList;
+    }
+
+
+
 
 
 
