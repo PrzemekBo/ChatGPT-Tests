@@ -568,6 +568,20 @@ import java.util.stream.Collectors;
     }
 
 
+    public static List<RawResponse> modifyRawResponses(List<RawResponse> rawResponses) {
+        return rawResponses.stream()
+                .peek(response -> {
+                    String cucu = response.getCucu();
+                    if (cucu.equals("texxt")) {
+                        response.setCucu("text");
+                    } else if (cucu.equals("ogon")) {
+                        response.setCucu("ogon 6");
+                    } else if (cucu.equals("kozak")) {
+                        response.setCucu("kzak 13");
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 
 
 
