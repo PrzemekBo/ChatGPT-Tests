@@ -605,6 +605,47 @@ import java.util.stream.Collectors;
     }
 
 
+    import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+    public class StringToListExample {
+        public static void main(String[] args) {
+            String inputString1 = "Director, Senior Manager, Manager";
+            List<String> outputList1 = convertStringToList(inputString1);
+            System.out.println(outputList1);
+
+            String inputString2 = "SingleString";
+            List<String> outputList2 = convertStringToList(inputString2);
+            System.out.println(outputList2);
+
+            String inputString3 = "";
+            List<String> outputList3 = convertStringToList(inputString3);
+            System.out.println(outputList3);
+
+            String inputString4 = null;
+            List<String> outputList4 = convertStringToList(inputString4);
+            System.out.println(outputList4);
+        }
+
+        public static List<String> convertStringToList(String inputString) {
+            if (inputString == null || inputString.isEmpty()) {
+                return Collections.emptyList();
+            }
+            else if (!inputString.contains(",")) {
+                return Collections.singletonList(inputString.trim());
+            }
+            else {
+                return Arrays.stream(inputString.split(","))
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+            }
+        }
+    }
+
+
+
 
 
 
