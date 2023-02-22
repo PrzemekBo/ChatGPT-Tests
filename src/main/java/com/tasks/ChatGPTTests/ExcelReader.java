@@ -598,6 +598,13 @@ import java.util.stream.Collectors;
     }
 
 
+    public static List<String> convertStringToList(String inputString) {
+        return Arrays.stream(inputString.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
+
+
 
 
 
