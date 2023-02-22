@@ -587,6 +587,15 @@ import java.util.stream.Collectors;
 
 
 
+    public static List<MyObject> removeObjectsWithTitles(List<MyObject> objectList, List<String> stringList) {
+        List<MyObject> result = new ArrayList<>();
+        for (MyObject obj : objectList) {
+            if (!stringList.contains(obj.getTitle())) {
+                result.add(obj);
+            }
+        }
+        return result;
+    }
 
 
 
