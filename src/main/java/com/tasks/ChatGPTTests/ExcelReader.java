@@ -645,6 +645,18 @@ import java.util.stream.Collectors;
     }
 
 
+    public List<ConvertedRow> processRows(List<ConvertedRow> convertedRows) {
+        for (ConvertedRow row : convertedRows) {
+            if (row.getQuestions().equals("Status RM")) {
+                row.setComment(List.of("1", "2"));
+                row.setDefaultValues("dasasd");
+            }
+        }
+        return convertedRows;
+    }
+
+
+
 
 
 
