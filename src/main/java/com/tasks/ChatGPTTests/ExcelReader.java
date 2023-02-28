@@ -657,6 +657,28 @@ import java.util.stream.Collectors;
 
 
 
+    import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import org.apache.poi.xwpf.extractor.XHTMLConverter;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+    public static String getCssFromWord(byte[] wordBytes) throws IOException {
+        // Convert Word document byte array to XHTML
+        XWPFDocument document = new XWPFDocument(new ByteArrayInputStream(wordBytes));
+        XHTMLConverter converter = (new XHTMLConverter()).convert(document);
+
+        // Extract CSS from the generated HTML using Jsoup
+        Document htmlDoc = Jsoup.parse(converter.toString());
+        String css = htmlDoc.head().getElementsByTag("style").html();
+
+        return css;
+    }
+
+
+
+
 
 
 
