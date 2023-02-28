@@ -677,6 +677,29 @@ import org.jsoup.nodes.Document;
     }
 
 
+    import org.zwobble.mammoth.DocumentConverter;
+import org.zwobble.mammoth.Result;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+    public class CssExtractor {
+        public static String extractCss(byte[] wordDocBytes) throws IOException {
+            InputStream inputStream = new ByteArrayInputStream(wordDocBytes);
+            DocumentConverter converter = new DocumentConverter();
+            Result<String> result = converter.extractStyles(inputStream);
+            String css = result.getValueOrElse("");
+            return css;
+        }
+    }
+    
+    
+    
+
+
+
 
 
 
