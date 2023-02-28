@@ -694,9 +694,50 @@ import java.nio.charset.StandardCharsets;
             return css;
         }
     }
-    
-    
-    
+
+    import org.zwobble.mammoth.DocumentConverter;
+import org.zwobble.mammoth.Result;
+import org.zwobble.mammoth.internal.styles.HtmlPath;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+    public class CssExtractor {
+        public static String extractCss(byte[] wordDocBytes) throws IOException {
+            InputStream inputStream = new ByteArrayInputStream(wordDocBytes);
+            DocumentConverter converter = new DocumentConverter();
+            Result<String> result = converter.convertToHtml(inputStream);
+            String html = result.getValueOrElse("");
+            String css = extractCssFromHtml(html);
+            return css;
+        }
+
+        private static String extractCssFromHtml(String html) {
+            StringBuilder cssBuilder = new StringBuilder();
+            int startIndex = 0;
+            while (true) {
+                startIndex = html.indexOf("<style>", startIndex);
+                if (startIndex == -1) {
+                    break;
+                }
+                startIndex += "<style>".length();
+                int endIndex = html.indexOf("</style>", startIndex);
+                if (endIndex == -1) {
+                    break;
+                }
+                String css = html.substring(startIndex, endIndex);
+                cssBuilder.append(css);
+                startIndex = endIndex + "</style>".length();
+            }
+            return cssBuilder.toString();
+        }
+    }
+
+
+
+
 
 
 
