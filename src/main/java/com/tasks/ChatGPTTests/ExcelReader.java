@@ -989,3 +989,31 @@ import com.zwobble.mammoth.internal.styles.parser.StyleParser;
                     return cssBuilder.toString();
                 }
             }
+
+
+            import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFStyles;
+import org.apache.poi.xwpf.usermodel.XWPFStyle;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+            public static String extractCSSFromWordDocument(byte[] wordDocument) throws IOException {
+                InputStream inputStream = new ByteArrayInputStream(wordDocument);
+                XWPFDocument document = new XWPFDocument(inputStream);
+                XWPFStyles styles = document.getStyles();
+                StringBuilder cssBuilder = new StringBuilder();
+                for (XWPFStyle style : styles.getStyleList()) {
+                    String styleId = style.getStyleId();
+                    String cssSelector = "." + styleId + " {";
+                    cssBuilder.append(cssSelector);
+                    if (style.getCTStyle().sizeOfRPrArray() > 0) {
+                        String font = style.getCTStyle().getRPrArray(0).toString();
+                        cssBuilder.append("font:" + font + ";");
+                    }
+                    cssBuilder.append("}\n");
+                }
+                return cssBuilder.toString();
+            }
+
