@@ -734,6 +734,45 @@ import java.nio.charset.StandardCharsets;
             return cssBuilder.toString();
         }
     }
+import org.apache.poi.ss.usermodel.*;
+
+    public static String getCssFromExcelBytes(byte[] excelBytes) throws IOException {
+        // Create a Workbook object from the Excel byte array
+        Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(excelBytes));
+
+        // Initialize a StringBuilder object to store the CSS styles
+        StringBuilder cssBuilder = new StringBuilder();
+
+        // Loop through each sheet in the workbook
+        for (Sheet sheet : workbook) {
+            // Loop through each row in the sheet
+            for (Row row : sheet) {
+                // Loop through each cell in the row
+                for (Cell cell : row) {
+                    // Get the cell style
+                    CellStyle cellStyle = cell.getCellStyle();
+
+                    // Extract the formatting information
+                    short fontIndex = cellStyle.getFontIndex();
+                    Font font = workbook.getFontAt(fontIndex);
+                    short colorIndex = cellStyle.getFillForegroundColor();
+                    Color color = workbook.getCustomPalette().getColor(colorIndex);
+
+                    // Generate the corresponding CSS style
+                    String cssStyle = String.format(
+                            "font-family: %s; font-size: %dpx; color: %s;",
+                            font.getFontName(), font.getFontHeightInPoints(), "#" + color.getHexString()
+                    );
+
+                    // Append the CSS style to the StringBuilder
+                    cssBuilder.append(cssStyle);
+                }
+            }
+        }
+
+        // Return the CSS styles as a String
+        return cssBuilder.toString();
+    }
 
 
 
