@@ -944,6 +944,48 @@ import org.apache.xmlbeans.XmlCursor;
                 }
             }
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
+import com.zwobble.mammoth.Result;
+import com.zwobble.mammoth.internal.docx.StyleMap;
+import com.zwobble.mammoth.internal.styles.HtmlPath;
+import com.zwobble.mammoth.internal.styles.HtmlPathJoiner;
+import com.zwobble.mammoth.internal.styles.HtmlPathSplitter;
+import com.zwobble.mammoth.internal.styles.ParsedStyles;
+import com.zwobble.mammoth.internal.styles.StyleDefinitions;
+import com.zwobble.mammoth.internal.styles.parser.StyleParser;
 
-        }
+            public class CssExtractor {
+
+                public static String extractCss(byte[] file) throws IOException {
+                    InputStream stream = new ByteArrayInputStream(file);
+                    Result<ParsedStyles> parsedStylesResult = StyleParser.parseStyles(stream);
+                    ParsedStyles parsedStyles = parsedStylesResult.getValue();
+                    StyleDefinitions styleDefinitions = parsedStyles.getStyleDefinitions();
+                    StyleMap styleMap = parsedStyles.getStyleMap();
+                    HtmlPathSplitter splitter = new HtmlPathSplitter();
+                    HtmlPathJoiner joiner = new HtmlPathJoiner();
+                    HtmlPath defaultParagraphStylePath = splitter.splitPath("p.Normal");
+                    String defaultCss = styleDefinitions.getParagraphStyle(defaultParagraphStylePath)
+                            .map(style -> style.toCss(styleMap))
+                            .orElse("");
+                    StringBuilder cssBuilder = new StringBuilder(defaultCss);
+                    styleDefinitions.getCharacterStyles().forEach((stylePath, style) -> {
+                        HtmlPath path = splitter.splitPath(stylePath);
+                        if (path.getTagName().equals("a")) {
+                            cssBuilder.append(joiner.joinPath(path));
+                            cssBuilder.append(" { text-decoration: underline; }");
+                        } else {
+                            cssBuilder.append(joiner.joinPath(path));
+                            cssBuilder.append(" { ");
+                            cssBuilder.append(style.toCss(styleMap));
+                            cssBuilder.append(" }");
+                        }
+                        cssBuilder.append("\n");
+                    });
+                    return cssBuilder.toString();
+                }
+            }
