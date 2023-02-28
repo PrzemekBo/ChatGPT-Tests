@@ -807,6 +807,38 @@ import org.apache.poi.xwpf.usermodel.*;
         return cssBuilder.toString();
     }
 
+    public static String getCssFromWordBytes(byte[] wordBytes) throws IOException {
+        // Create a XWPFDocument object from the Word byte array
+        XWPFDocument document = new XWPFDocument(new ByteArrayInputStream(wordBytes));
+
+        // Initialize a StringBuilder object to store the CSS styles
+        StringBuilder cssBuilder = new StringBuilder();
+
+        // Loop through each paragraph in the document
+        for (XWPFParagraph paragraph : document.getParagraphs()) {
+            // Get the paragraph style
+            String styleId = paragraph.getStyleID();
+            XWPFStyle style = document.getStyles().getStyle(styleId);
+
+            // Extract the formatting information
+            CTColor color = style.getCTStyle().getRPr().getColor();
+            String fontName = style.getCTStyle().getRPr().getRFonts().getAscii();
+            int fontSize = style.getCTStyle().getRPr().getSz().getVal().intValue();
+
+            // Generate the corresponding CSS style
+            String cssStyle = String.format(
+                    "font-family: %s; font-size: %dpt; color: #%s;",
+                    fontName, fontSize, color.getStringValue()
+            );
+
+            // Append the CSS style to the StringBuilder
+            cssBuilder.append(cssStyle);
+        }
+
+        // Return the CSS styles as a String
+        return cssBuilder.toString();
+    }
+
 
 
 
