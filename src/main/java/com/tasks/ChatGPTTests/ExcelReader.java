@@ -870,17 +870,79 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTColor;
 
             // Append the CSS style to the StringBuilder
             cssBuilder
+        import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.xmlbeans.XmlCursor;
 
+            public class WordToCssConverter {
 
+                public static String getCssStyles(byte[] data) throws IOException {
 
+                    XWPFDocument document = new XWPFDocument(new ByteArrayInputStream(data));
+                    StringBuilder cssBuilder = new StringBuilder();
 
+                    for (XWPFParagraph p : document.getParagraphs()) {
+                        XmlCursor cursor = p.getCTP().newCursor();
+                        cursor.selectPath("./*");
+                        while(cursor.toNextSelection()) {
+                            if(cursor.getSelection().getName().getLocalPart().equals("rPr")) {
+                                cssBuilder.append(getCssStylesFromRun(cursor));
+                            }
+                        }
+                    }
 
+                    return cssBuilder.toString();
+                }
 
+                private static String getCssStylesFromRun(XmlCursor cursor) {
 
+                    StringBuilder cssBuilder = new StringBuilder();
+                    String fontSize = "";
+                    String fontFamily = "";
+                    String fontWeight = "";
+                    String fontStyle = "";
+                    String textDecoration = "";
 
+                    cursor.selectPath("./*");
+                    while(cursor.toNextSelection()) {
+                        if(cursor.getSelection().getName().getLocalPart().equals("sz")) {
+                            fontSize = cursor.getSelectionText();
+                        }
+                        if(cursor.getSelection().getName().getLocalPart().equals("rFonts")) {
+                            fontFamily = cursor.getSelectionText();
+                        }
+                        if(cursor.getSelection().getName().getLocalPart().equals("b")) {
+                            fontWeight = "bold";
+                        }
+                        if(cursor.getSelection().getName().getLocalPart().equals("i")) {
+                            fontStyle = "italic";
+                        }
+                        if(cursor.getSelection().getName().getLocalPart().equals("u")) {
+                            textDecoration = "underline";
+                        }
+                    }
 
+                    if(!fontSize.isEmpty()) {
+                        cssBuilder.append("font-size:").append(fontSize).append("pt;");
+                    }
+                    if(!fontFamily.isEmpty()) {
+                        cssBuilder.append("font-family:").append(fontFamily).append(";");
+                    }
+                    if(!fontWeight.isEmpty()) {
+                        cssBuilder.append("font-weight:").append(fontWeight).append(";");
+                    }
+                    if(!fontStyle.isEmpty()) {
+                        cssBuilder.append("font-style:").append(fontStyle).append(";");
+                    }
+                    if(!textDecoration.isEmpty()) {
+                        cssBuilder.append("text-decoration:").append(textDecoration).append(";");
+                    }
 
-
+                    return cssBuilder.toString();
+                }
+            }
 
 
 
