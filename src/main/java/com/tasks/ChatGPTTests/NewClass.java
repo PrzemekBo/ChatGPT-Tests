@@ -70,3 +70,28 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "word_image_seq")
     @SequenceGenerator(name = "word_image_seq", sequenceName = "word_image_seq", allocationSize = 1)
     private Long id;
+
+
+
+
+    CREATE TABLE word_image (
+            id VARCHAR(255) NOT NULL,
+    content BLOB,
+    name VARCHAR(255),
+    PRIMARY KEY (id)
+
+
+
+    CREATE TABLE html_document (
+            id VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    type VARCHAR(255),
+    data BLOB,
+    language_type INTEGER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (images) REFERENCES word_image(id)
+            );
+
+);
+
+
