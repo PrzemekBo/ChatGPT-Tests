@@ -92,6 +92,17 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     FOREIGN KEY (images) REFERENCES word_image(id)
             );
 
+    public static String readHtmlContent(byte[] htmlBytes) {
+        String content = null;
+        try {
+            content = new String(htmlBytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+
 );
 
 
