@@ -35,4 +35,32 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
         }
     }
 
+
+    public class Witch {
+        @Id
+
+        private Long id;
+
+        @Lob
+        @Basic(fetch = FetchType.LAZY)
+        @Column(nullable = false)
+        private byte[] htmlFile;
+
+        @ElementCollection
+        private List<String> photoList;
+
 }
+    CREATE TABLE HtmlDocument (
+            id VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255),
+    type VARCHAR(255),
+    data LONGBLOB,
+    languageType ENUM('ENGLISH', 'FRENCH', 'GERMAN', 'SPANISH'),
+    CONSTRAINT fk_images FOREIGN KEY (image_id) REFERENCES WordImage(id)
+            );
+
+    CREATE TABLE WordImage (
+            id VARCHAR(255) NOT NULL PRIMARY KEY,
+    content LONGBLOB,
+    name VARCHAR(255)
+);
