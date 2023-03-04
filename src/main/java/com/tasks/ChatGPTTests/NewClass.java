@@ -64,3 +64,9 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     content LONGBLOB,
     name VARCHAR(255)
 );
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "word_image_seq")
+    @SequenceGenerator(name = "word_image_seq", sequenceName = "word_image_seq", allocationSize = 1)
+    private Long id;
