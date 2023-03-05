@@ -120,6 +120,15 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     }
 
 
+    public String replaceImageNamesWithBytes(List<String> imageNames, List<String> imageBytes, String longString) {
+        for (int i = 0; i < imageNames.size(); i++) {
+            longString = longString.replace(imageNames.get(i), imageBytes.get(i));
+        }
+        return longString;
+    }
+
+
+
 
 
 );
