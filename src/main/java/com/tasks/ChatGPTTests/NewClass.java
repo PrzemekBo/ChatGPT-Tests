@@ -109,6 +109,18 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     }
 
 
+    public static String replaceImageNames(String longString, List<String> imageNames) {
+        for (String imageName : imageNames) {
+            String pattern = "kkkkkk" + imageName + "tttttt";
+            if (longString.contains(pattern)) {
+                longString = longString.replace(pattern, imageName);
+            }
+        }
+        return longString;
+    }
+
+
+
 
 );
 
