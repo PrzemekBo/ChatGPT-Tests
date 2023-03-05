@@ -102,6 +102,13 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
         return content;
     }
 
+    public static String getBase64Image(byte[] imageData) {
+        String encodedImage = Base64.getEncoder().encodeToString(imageData);
+        String mimeType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(imageData));
+        return "data:" + mimeType + ";base64," + encodedImage;
+    }
+
+
 
 );
 
