@@ -159,6 +159,17 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
     }
 
 
+    public static String removeBetweenInputs(String bigString, String input1, String input2) {
+        int startIndex = bigString.indexOf(input1);
+        int endIndex = bigString.indexOf(input2);
+        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+            return bigString.substring(0, startIndex) + bigString.substring(endIndex + input2.length());
+        }
+        return bigString;
+    }
+
+
+
 
 
 );
