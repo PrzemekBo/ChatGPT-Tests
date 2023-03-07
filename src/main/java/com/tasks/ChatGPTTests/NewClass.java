@@ -140,6 +140,25 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
         return encodedImages;
     }
 
+    public class Example {
+        public static void main(String[] args) {
+            String bigString = "<html><head><title>Page Title</title></head><body><h1>Heading</h1><p>Some text</p></body></html>";
+            System.out.println("Original string: " + bigString);
+            String result = removeHeadTags(bigString);
+            System.out.println("String after removing <head> tags: " + result);
+        }
+
+        public static String removeHeadTags(String bigString) {
+            int startIndex = bigString.indexOf("<head>");
+            int endIndex = bigString.indexOf("</head>");
+            if (startIndex != -1 && endIndex != -1) {
+                return bigString.substring(0, startIndex) + bigString.substring(endIndex + 7);
+            }
+            return bigString;
+        }
+    }
+
+
 
 
 );
