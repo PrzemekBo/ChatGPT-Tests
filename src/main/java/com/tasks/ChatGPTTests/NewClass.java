@@ -168,6 +168,21 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
         return bigString;
     }
 
+    public List<String> findStringsBetweenBraces(String input) {
+        List<String> result = new ArrayList<>();
+        int startIndex = 0;
+        int endIndex = 0;
+        while (startIndex != -1 && endIndex != -1) {
+            startIndex = input.indexOf("}", endIndex);
+            endIndex = input.indexOf("{", startIndex);
+            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
+                result.add(input.substring(startIndex + 1, endIndex));
+            }
+        }
+        return result;
+    }
+
+
 
 
 
