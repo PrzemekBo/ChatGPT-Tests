@@ -182,6 +182,33 @@ import org.apache.poi.xwpf.usermodel.XWPFStyles;
         return result;
     }
 
+import java.util.*;
+
+    public class MyClass {
+
+        public static Map<String, String> extractValues(List<String> classStrings, String bigString) {
+            Map<String, String> result = new HashMap<>();
+            for (String classString : classStrings) {
+                int startIndex = bigString.indexOf(classString);
+                if (startIndex != -1) {
+                    startIndex += classString.length();
+                    int endIndex = bigString.indexOf("}", startIndex);
+                    if (endIndex != -1) {
+                        String value = bigString.substring(startIndex, endIndex).trim();
+                        result.put(classString, value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static void main(String[] args) {
+            List<String> classStrings = Arrays.asList(".foo", ".bar");
+            String bigString = "This is a .foo{blah blah} and this is a .bar{blah 542}.sds";
+            Map<String, String> result = extractValues(classStrings, bigString);
+            System.out.println(result); // prints "{.foo=blah blah, .bar=blah 542}"
+        }
+    }
 
 
 
