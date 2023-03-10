@@ -331,6 +331,25 @@ import java.util.*;
     }
 
 
+    public static List<String> extractStrings(String bigString, String word) {
+        List<String> extractedStrings = new ArrayList<>();
+        String startTag = "<" + word + ">";
+        String endTag = "</" + word + ">";
+        int startIndex = bigString.indexOf(startTag);
+        while (startIndex != -1) {
+            int endIndex = bigString.indexOf(endTag, startIndex);
+            if (endIndex != -1) {
+                String extractedString = bigString.substring(startIndex, endIndex + endTag.length());
+                extractedStrings.add(extractedString);
+            } else {
+                // end tag not found, break out of loop
+                break;
+            }
+            startIndex = bigString.indexOf(startTag, endIndex);
+        }
+        return extractedStrings;
+    }
+
 
 
 );
