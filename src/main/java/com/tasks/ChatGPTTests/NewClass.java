@@ -284,6 +284,14 @@ import java.util.*;
         return largeStr.substring(startIdx, endIdx);
     }
 
+    public String extractString(String start, String end, String bigString) {
+        int startIndex = bigString.indexOf(start) + start.length();
+        int endIndex = bigString.indexOf(end, startIndex);
+        if (startIndex == -1 || endIndex == -1) {
+            return null;
+        }
+        return bigString.substring(startIndex, endIndex).trim();
+    }
 
 
 
