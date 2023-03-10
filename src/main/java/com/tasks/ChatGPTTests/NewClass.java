@@ -293,6 +293,16 @@ import java.util.*;
         return bigString.substring(startIndex, endIndex).trim();
     }
 
+    public static void removeDotsFromKeys(Map<String, ?> map) {
+        Set<String> keys = new HashSet<>(map.keySet());
+        for (String key : keys) {
+            if (key.contains(".")) {
+                Object value = map.remove(key);
+                String newKey = key.replaceAll("\\.", "");
+                map.put(newKey, value);
+            }
+        }
+    }
 
 
 
