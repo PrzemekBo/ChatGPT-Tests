@@ -271,6 +271,20 @@ import java.util.*;
         return null;
     }
 
+    public static String getSubstringBetween(String str1, String str2, String largeStr) {
+        int startIdx = largeStr.indexOf(str1);
+        if (startIdx == -1) {
+            return null;
+        }
+        startIdx += str1.length();
+        int endIdx = largeStr.lastIndexOf(str2);
+        if (endIdx == -1) {
+            return null;
+        }
+        return largeStr.substring(startIdx, endIdx);
+    }
+
+
 
 
 
