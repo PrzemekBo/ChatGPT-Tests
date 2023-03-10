@@ -316,6 +316,19 @@ import java.util.*;
         return updatedMap;
     }
 
+    public static List<String> extractStrings(String bigString, String word) {
+        List<String> extractedStrings = new ArrayList<>();
+        String startTag = "<" + word + ">";
+        String endTag = "</" + word + ">";
+        int startIndex = bigString.indexOf(startTag);
+        while (startIndex != -1) {
+            int endIndex = bigString.indexOf(endTag, startIndex);
+            String extractedString = bigString.substring(startIndex + startTag.length(), endIndex);
+            extractedStrings.add(extractedString);
+            startIndex = bigString.indexOf(startTag, endIndex);
+        }
+        return extractedStrings;
+    }
 
 
 
