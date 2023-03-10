@@ -303,6 +303,18 @@ import java.util.*;
             }
         }
     }
+    public static HashMap<String, String> removeDotFromKeys(HashMap<String, String> originalMap) {
+        HashMap<String, String> updatedMap = new HashMap<>();
+        for (String key : originalMap.keySet()) {
+            if (key.contains(".")) {
+                String updatedKey = key.replace(".", "");
+                updatedMap.put(updatedKey, originalMap.get(key));
+            } else {
+                updatedMap.put(key, originalMap.get(key));
+            }
+        }
+        return updatedMap;
+    }
 
 
 
