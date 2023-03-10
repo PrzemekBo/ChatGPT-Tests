@@ -209,6 +209,18 @@ import java.util.*;
             System.out.println(result); // prints "{.foo=blah blah, .bar=blah 542}"
         }
     }
+    public Map<String, String> generateOutputList(String bigString, List<String> inputList) {
+        Map<String, String> outputList = new HashMap<>();
+        for (String input : inputList) {
+            int index = bigString.indexOf(input);
+            if (index >= 0) {
+                int endIndex = bigString.indexOf("}", index) + 1;
+                String css = bigString.substring(index, endIndex);
+                outputList.put(input, css);
+            }
+        }
+        return outputList;
+    }
 
 
 
