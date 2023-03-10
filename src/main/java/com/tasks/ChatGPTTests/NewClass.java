@@ -259,6 +259,17 @@ import java.util.*;
         }
         return largeString.substring(startIndex + startString.length(), endIndex);
     }
+    public static String getStringBetween(String inputStr, String startStr, String endStr) {
+        int startIndex = inputStr.indexOf(startStr);
+        if (startIndex != -1) {
+            startIndex += startStr.length();
+            int endIndex = inputStr.indexOf(endStr, startIndex);
+            if (endIndex != -1) {
+                return inputStr.substring(startIndex, endIndex);
+            }
+        }
+        return null;
+    }
 
 
 
