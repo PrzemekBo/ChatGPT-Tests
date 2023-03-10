@@ -223,6 +223,37 @@ import java.util.*;
     }
 
 
+    public static Map<String, String> generateOutput(String bigString, List<String> inputList) {
+        Map<String, String> outputList = new HashMap<>();
+
+        // Loop through each input in the inputList
+        for (String input : inputList) {
+            // Find the start index of the input in bigString
+            int startIndex = bigString.indexOf(input);
+            if (startIndex == -1) {
+                // Input not found in bigString, skip to next input
+                continue;
+            }
+
+            // Find the end index of the input in bigString
+            int endIndex = bigString.indexOf(")", startIndex);
+            if (endIndex == -1) {
+                // Matching closing parenthesis not found, skip to next input
+                continue;
+            }
+
+            // Extract the text between the input and closing parenthesis
+            String text = bigString.substring(startIndex + input.length(), endIndex);
+
+            // Add the input and extracted text to the output map
+            outputList.put(input, text.trim());
+        }
+
+        return outputList;
+    }
+
+
+
 
 
 
