@@ -548,5 +548,23 @@ import java.util.Map;
                 return updatedList;
             }
 
+            public List<String> addStylesToSpanList(Map<String, String> inputMap, List<String> spanList) {
+                List<String> modifiedList = new ArrayList<>();
+                for (String span : spanList) {
+                    int classIndex = span.indexOf("class=\"");
+                    if (classIndex != -1) {
+                        int endIndex = span.indexOf("\"", classIndex + 7);
+                        if (endIndex != -1) {
+                            String className = span.substring(classIndex + 7, endIndex);
+                            String style = inputMap.get(className);
+                            if (style != null) {
+                                span = span.replace(classIndex + 6, classIndex + 7, "style=\"" + style + "\" ");
+                            }
+                        }
+                    }
+                    modifiedList.add(span);
+                }
+                return modifiedList;
+            }
 
 
