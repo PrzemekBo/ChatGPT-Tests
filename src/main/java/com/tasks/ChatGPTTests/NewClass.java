@@ -426,7 +426,64 @@ import java.util.Map;
     }
 
 
+    import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-);
+    public class CssStyleConverter {
+
+        public static List<String> convert(List<String> inputList, Map<String, String> inputMap) {
+            List<String> outputList = new ArrayList<String>();
+
+            for (String input : inputList) {
+                StringBuilder output = new StringBuilder();
+
+                // extract the class name from the input string
+                String className = input.substring(input.indexOf("class=\"") + 7, input.indexOf("\"", input.indexOf("class=\"") + 7));
+
+                // get the corresponding CSS style for the class name
+                String cssStyle = inputMap.get(className);
+                if (cssStyle == null) {
+                    // if no CSS style is found for the class, use an empty style
+                    cssStyle = "{}";
+                }
+
+                // add the style attribute to the output string
+                output.append(input.substring(0, input.indexOf("class=\"") + 7));
+                output.append(cssStyle.substring(0, cssStyle.length() - 1)); // remove the closing bracket
+                output.append(";\"");
+                output.append(input.substring(input.indexOf("\"", input.indexOf("class=\"") + 7)));
+
+                // add the rest of the input string to the output string
+                output.append(input.substring(input.indexOf(">") + 1, input.lastIndexOf("<")));
+
+                // add the output string to the output list
+                outputList.add(output.toString());
+            }
+
+            return outputList;
+        }
+
+        public static void main(String[] args) {
+            // sample input
+            Map<String, String> inputMap = new HashMap<String, String>();
+            inputMap.put("c49", "{padding-top:0pt;padding-bottom:0pt;line-height:1.15;text-align:left");
+            inputMap.put("c42", "{background-color:#ffff00");
+            inputMap.put("c37", "{font-weight:700");
+            inputMap.put("c24", "{padding-top:0pt;padding-bottom:9pt;line-height:1.15;text-align:left");
+            inputMap.put("c10", "{padding-top:12pt;padding-bottom:6pt;line-height:1.15;text-align:left");
+            inputMap.put("c5", "{border-right-style:solid;padding:7.2pt 7.2pt 7.2pt 7.2pt;border-bottom-color:#ffffff;border-top-width:0pt;border-right-width:0pt; border-left-color:#ffffff;vertical-align:middle;border-right-color:#ffffff;border-left-width:0pt;border-top-style:solid;border-left-style:solid;border- bottom-width:0pt;width:138.8pt;border-top-color:#ffffff;border-bottom-style:solid");
+            inputMap.put("c18", "{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:\"Arial\";font-style:normal ");
+            inputMap.put("c17", "{height:0pt");
+            inputMap.put("c16", "{background-color:#ffff00;color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:\"Arial\";font-style:normal");
+
+            List<String> inputList = new ArrayList<String>();
+            inputList.add("<p class=\"c49\"><span class=\"c42 c37\">%%Entity_name_full%%</span><span class=\"c16\"><br>%%Street%%% %Number%%</span></p>");
+            inputList.add("<p class=\"c24\"><span class=\"c42\">%%zip%%%%City%%<br>%%Country%%</
+
+
+
+            );
 
 
