@@ -500,3 +500,24 @@ import java.util.Map;
             }
 
 
+            public static List<String> updateSpanList(Map<String, String> inputMap, List<String> spanList) {
+                List<String> updatedList = new ArrayList<>();
+                for (String span : spanList) {
+                    StringBuilder sb = new StringBuilder(span);
+                    int index = sb.indexOf("class=\"");
+                    while (index != -1) {
+                        int endIndex = sb.indexOf("\"", index + 7);
+                        String className = sb.substring(index + 7, endIndex);
+                        if (inputMap.containsKey(className)) {
+                            String style = "style=\"" + inputMap.get(className) + "\"";
+                            sb.insert(endIndex + 1, " " + style);
+                        }
+                        index = sb.indexOf("class=\"", endIndex);
+                    }
+                    updatedList.add(sb.toString());
+                }
+                return updatedList;
+            }
+
+
+
