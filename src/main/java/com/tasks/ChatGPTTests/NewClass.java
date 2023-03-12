@@ -485,5 +485,18 @@ import java.util.Map;
 
 
             );
+            public static Map<String, String> removeCurlyBraces(Map<String, String> inputMap) {
+                Map<String, String> outputMap = new HashMap<>();
+
+                for (Map.Entry<String, String> entry : inputMap.entrySet()) {
+                    String value = entry.getValue();
+                    if (value != null && value.contains("{")) {
+                        value = value.replaceAll("\\{", "");
+                    }
+                    outputMap.put(entry.getKey(), value);
+                }
+
+                return outputMap;
+            }
 
 
