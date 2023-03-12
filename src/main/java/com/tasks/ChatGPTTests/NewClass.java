@@ -374,6 +374,59 @@ import java.util.*;
     }
 
 
+    import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+    public class HTMLFormatter {
+
+        public static List<String> formatHTML(Map<String, String> inputMap, List<String> inputList) {
+            List<String> outputList = new ArrayList<>();
+            for (String input : inputList) {
+                StringBuilder output = new StringBuilder();
+                String[] tokens = input.split("(?<=\\})|(?=\\{)");
+                for (String token : tokens) {
+                    if (token.startsWith("{")) {
+                        output.append(" style=\"" + inputMap.get(token.substring(1)) + "\">");
+                    } else if (token.endsWith("}")) {
+                        output.append("</" + token.substring(0, token.length() - 1) + ">");
+                    } else {
+                        output.append(token);
+                    }
+                }
+                outputList.add(output.toString());
+            }
+            return outputList;
+        }
+
+        public static void main(String[] args) {
+            Map<String, String> inputMap = new HashMap<>();
+            inputMap.put("c49", "padding-top:0pt;padding-bottom:0pt;line-height:1.15;text-align:left");
+            inputMap.put("c42", "background-color:#ffff00");
+            inputMap.put("c37", "font-weight:700");
+            inputMap.put("c24", "padding-top:0pt;padding-bottom:9pt;line-height:1.15;text-align:left");
+            inputMap.put("c10", "padding-top:12pt;padding-bottom:6pt;line-height:1.15;text-align:left");
+            inputMap.put("c5", "border-right-style:solid;padding:7.2pt 7.2pt 7.2pt 7.2pt;border-bottom-color:#ffffff;border-top-width:0pt;border-right-width:0pt; border-left-color:#ffffff;vertical-align:middle;border-right-color:#ffffff;border-left-width:0pt;border-top-style:solid;border-left-style:solid;border-bottom-width:0pt;width:138.8pt;border-top-color:#ffffff;border-bottom-style:solid");
+            inputMap.put("c18", "color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:\"Arial\";font-style:normal");
+            inputMap.put("c17", "height:0pt");
+            inputMap.put("c16", "background-color:#ffff00;color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:\"Arial\";font-style:normal");
+
+            List<String> inputList = new ArrayList<>();
+            inputList.add("<p class=\"c49\"><span class=\"c42 c37\">%%Entity_name_full%%</span><span class=\"c16\"><br>%%Street%%% %Number%%</span></p>");
+            inputList.add("<p class=\"c24\"><span class=\"c42\">%%zip%%%%City%%<br>%%Country%%</span></p>");
+            inputList.add("<p class=\"c10 c5\"><span class=\"c18\"></span></p>");
+
+            List<String> outputList = formatHTML(inputMap, inputList);
+
+            for (String output : outputList) {
+                System.out.println(output);
+            }
+        }
+    }
+
+
+
 );
 
 
