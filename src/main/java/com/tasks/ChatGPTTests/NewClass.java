@@ -567,4 +567,17 @@ import java.util.Map;
                 return modifiedList;
             }
 
+            public Map<String, String> removeInvalidValues(Map<String, String> map) {
+                Map<String, String> result = new HashMap<>();
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    String value = entry.getValue();
+                    if (value.startsWith("{")) {
+                        value = value.substring(1);
+                    } else if (value.matches("^\\d+\\{.*")) {
+                        continue; // skip invalid objects
+                    }
+                    result.put(entry.getKey(), value);
+                }
+                return result;
+            }
 
