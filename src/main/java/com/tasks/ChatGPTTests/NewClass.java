@@ -520,4 +520,33 @@ import java.util.Map;
             }
 
 
+            public static List<String> updateSpanList(Map<String, String> inputMap, List<String> spanList) {
+                List<String> updatedList = new ArrayList<>();
+                for (String span : spanList) {
+                    StringBuilder sb = new StringBuilder(span);
+                    int index = sb.indexOf("class=\"");
+                    while (index != -1) {
+                        int endIndex = sb.indexOf("\"", index + 7);
+                        String classNames = sb.substring(index + 7, endIndex);
+                        String[] classes = classNames.split(" ");
+                        String style = "";
+                        for (String className : classes) {
+                            if (inputMap.containsKey(className)) {
+                                if (!style.isEmpty()) {
+                                    style += "; ";
+                                }
+                                style += inputMap.get(className);
+                            }
+                        }
+                        if (!style.isEmpty()) {
+                            sb.insert(endIndex + 1, " style=\"" + style + "\"");
+                        }
+                        index = sb.indexOf("class=\"", endIndex);
+                    }
+                    updatedList.add(sb.toString());
+                }
+                return updatedList;
+            }
+
+
 
