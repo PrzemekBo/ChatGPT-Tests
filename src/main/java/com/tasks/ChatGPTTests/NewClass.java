@@ -581,3 +581,15 @@ import java.util.Map;
                 return result;
             }
 
+
+            public static String replaceStyles(String bigString, List<String> withoutStyle, List<String> zStyle) {
+                if (withoutStyle.size() != zStyle.size()) {
+                    throw new IllegalArgumentException("Lists must be the same size");
+                }
+                for (int i = 0; i < withoutStyle.size(); i++) {
+                    bigString = bigString.replace(withoutStyle.get(i), zStyle.get(i));
+                }
+                return bigString;
+            }
+
+
