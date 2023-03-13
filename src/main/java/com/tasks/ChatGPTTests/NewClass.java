@@ -598,3 +598,22 @@ import java.util.Map;
                         .collect(Collectors.toList());
             }
 
+
+            public static Map<String, String> extractData(String bigString, List<String> inputList) {
+                Map<String, String> outputList = new HashMap<>();
+                for (String input : inputList) {
+                    int pos = bigString.indexOf(input);
+                    if (pos >= 0) {
+                        int startPos = pos + input.length();
+                        int endPos = bigString.indexOf(")", startPos);
+                        if (endPos < 0) {
+                            endPos = bigString.length();
+                        }
+                        String data = bigString.substring(startPos, endPos);
+                        outputList.put(input, data);
+                    }
+                }
+                return outputList;
+            }
+
+
