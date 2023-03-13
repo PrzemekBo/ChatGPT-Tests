@@ -690,3 +690,37 @@ import java.util.*;
                 }
                 return stringList;
             }
+
+
+            import java.util.ArrayList;
+import java.util.List;
+
+            public class StringParser {
+
+                public static List<String> parseStrings(String bigString) {
+                    List<String> stringList = new ArrayList<>();
+                    int startIndex = 0;
+                    int endIndex = 0;
+                    while (startIndex != -1 && endIndex != -1) {
+                        startIndex = bigString.indexOf("}", endIndex);
+                        if (startIndex == -1) {
+                            break;
+                        }
+                        endIndex = bigString.indexOf("{", startIndex);
+                        if (endIndex == -1) {
+                            break;
+                        }
+                        String subString = bigString.substring(startIndex + 1, endIndex);
+                        stringList.add(subString);
+                    }
+                    return stringList;
+                }
+
+                public static void main(String[] args) {
+                    String bigString = "This is a {test.value} string {with.some.other.value} values.";
+                    List<String> stringList = parseStrings(bigString);
+                    for (String string : stringList) {
+                        System.out.println(string);
+                    }
+                }
+            }
