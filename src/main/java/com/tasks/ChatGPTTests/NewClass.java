@@ -676,3 +676,17 @@ import java.util.*;
                     return outputMap;
                 }
             }
+
+
+            public List<String> extractStringList(String bigString) {
+                List<String> stringList = new ArrayList<>();
+                Pattern pattern = Pattern.compile("\\}(.*?)\\{");
+                Matcher matcher = pattern.matcher(bigString);
+                while (matcher.find()) {
+                    String match = matcher.group(1);
+                    if (match.startsWith(".")) {
+                        stringList.add(match);
+                    }
+                }
+                return stringList;
+            }
