@@ -660,3 +660,19 @@ import java.util.*;
                 }
             }
 
+import java.util.*;
+
+            public class CSSParser {
+                public static Map<String, String> parseCSS(String bitInput, List<String> inputList) {
+                    Map<String, String> outputMap = new HashMap<>();
+                    String[] parts = bitInput.split("[{}]");
+                    for (int i = 0; i < parts.length - 1; i += 2) {
+                        String selector = parts[i].trim();
+                        String css = parts[i + 1].trim();
+                        if (inputList.contains(selector)) {
+                            outputMap.put(selector, css);
+                        }
+                    }
+                    return outputMap;
+                }
+            }
