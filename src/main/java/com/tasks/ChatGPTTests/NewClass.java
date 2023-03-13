@@ -632,4 +632,31 @@ import java.util.Map;
                 return outputList;
             }
 
+import java.util.*;
+
+            public class CssParser {
+
+                public static Map<String, String> parseCss(String bitInput, List<String> inputList) {
+                    Map<String, String> outputMap = new HashMap<>();
+                    String[] cssSegments = bitInput.split("\\}");
+                    for (String cssSegment : cssSegments) {
+                        String[] cssRules = cssSegment.split("\\{");
+                        if (cssRules.length == 2) {
+                            String cssSelector = cssRules[0].trim();
+                            String cssProperties = cssRules[1].trim();
+                            if (inputList.contains(cssSelector)) {
+                                outputMap.put(cssSelector, cssProperties);
+                            }
+                        }
+                    }
+                    return outputMap;
+                }
+
+                public static void main(String[] args) {
+                    String bitInput = "pt}.c73{background-color:#fef6f0}.c31{height:20.9pt}.c39{height:24.4pt}.c17{heig";
+                    List<String> inputList = Arrays.asList(".c73",".c31",".c39");
+                    Map<String, String> outputMap = parseCss(bitInput, inputList);
+                    System.out.println(outputMap);
+                }
+            }
 
