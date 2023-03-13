@@ -592,4 +592,9 @@ import java.util.Map;
                 return bigString;
             }
 
+            public List<String> addBraceToList(List<String> inputList) {
+                return inputList.stream()
+                        .map(str -> str.length() == 1 && str.charAt(0) == 'c' ? str + "{" : str)
+                        .collect(Collectors.toList());
+            }
 
