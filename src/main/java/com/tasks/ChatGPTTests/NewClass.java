@@ -776,3 +776,26 @@ import org.apache.poi.xwpf.usermodel.*;
                 }
                 return outputFile;
             }
+
+
+            public static String removeBackslash(String input) {
+                StringBuilder output = new StringBuilder();
+                boolean escaped = false;
+                for (int i = 0; i < input.length(); i++) {
+                    char c = input.charAt(i);
+                    if (escaped) {
+                        if (c == '\"') {
+                            output.append(c);
+                        } else {
+                            output.append('\\');
+                            output.append(c);
+                        }
+                        escaped = false;
+                    } else if (c == '\\') {
+                        escaped = true;
+                    } else {
+                        output.append(c);
+                    }
+                }
+                return output.toString();
+            }
