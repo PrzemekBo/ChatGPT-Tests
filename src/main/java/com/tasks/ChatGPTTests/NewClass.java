@@ -748,3 +748,31 @@ import java.util.List;
                 matcher.appendTail(outputString);
                 return outputString.toString();
             }
+
+
+            import java.io.*;
+import org.apache.poi.xwpf.usermodel.*;
+
+            public static File htmlToDocx(String html) {
+                File outputFile = null;
+                try {
+                    // Create a new docx document
+                    XWPFDocument doc = new XWPFDocument();
+
+                    // Parse the HTML and add it to the document
+                    XWPFParagraph para = doc.createParagraph();
+                    XWPFRun run = para.createRun();
+                    run.setText(html);
+
+                    // Write the document to a file
+                    outputFile = File.createTempFile("output", ".docx");
+                    FileOutputStream out = new FileOutputStream(outputFile);
+                    doc.write(out);
+                    out.close();
+
+                    System.out.println("HTML converted to docx successfully!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return outputFile;
+            }
