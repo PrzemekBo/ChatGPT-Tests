@@ -799,3 +799,56 @@ import org.apache.poi.xwpf.usermodel.*;
                 }
                 return output.toString();
             }
+
+
+
+
+            <dependencies>
+    <dependency>
+        <groupId>org.docx4j</groupId>
+        <artifactId>docx4j</artifactId>
+        <version>11.3.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.docx4j</groupId>
+        <artifactId>docx4j-ImportXHTML</artifactId>
+        <version>11.3.2</version>
+    </dependency>
+</dependencies>
+
+            import java.io.File;
+
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.convert.in.xhtml.XHTMLImporter;
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
+
+            public class HTMLtoDOCXConverter {
+                public static File convertHtmlToDocx(String html, String outputFilename) {
+                    File outputFile = null;
+                    try {
+                        // Create a new WordprocessingMLPackage
+                        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+                        // Configure the XHTML importer
+                        XHTMLImporter xhtmlImporter = new XHTMLImporterImpl(wordMLPackage);
+
+                        // Convert the HTML string to a list of docx objects
+                        wordMLPackage.getMainDocumentPart().getContent().addAll(xhtmlImporter.convert(html, null));
+
+                        // Save the resulting docx file
+                        outputFile = new File(outputFilename);
+                        wordMLPackage.save(outputFile);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return outputFile;
+                }
+
+                public static void main(String[] args) {
+                    String html = "<html><head><title>Test</title></head><body><h1>Hello, World!</h1></body></html>";
+                    String outputFilename = "output.docx";
+                    File outputFile = convertHtmlToDocx(html, outputFilename);
+                    System.out.println("File saved to: " + outputFile.getAbsolutePath());
+                }
+            }
