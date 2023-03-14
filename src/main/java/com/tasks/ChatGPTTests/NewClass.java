@@ -852,3 +852,24 @@ import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
                     System.out.println("File saved to: " + outputFile.getAbsolutePath());
                 }
             }
+
+
+
+            public static String removeBackslashBeforeDoubleQuote(String bigString) {
+                if (bigString == null) {
+                    return null;
+                }
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bigString.length(); i++) {
+                    char currentChar = bigString.charAt(i);
+
+                    if (currentChar == '\\' && (i + 1) < bigString.length() && bigString.charAt(i + 1) == '\"') {
+                        continue; // Skip the current backslash character
+                    }
+
+                    sb.append(currentChar);
+                }
+
+                return sb.toString();
+            }
