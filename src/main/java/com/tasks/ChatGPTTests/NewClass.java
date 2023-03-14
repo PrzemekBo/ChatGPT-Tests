@@ -724,3 +724,27 @@ import java.util.List;
                     }
                 }
             }
+
+
+            public static String addStyleToClass(String bigString, Map<String, String> inputMap) {
+                String patternString = "class=\"([^\"]*)\"";
+                Pattern pattern = Pattern.compile(patternString);
+                Matcher matcher = pattern.matcher(bigString);
+                StringBuffer outputString = new StringBuffer();
+                while (matcher.find()) {
+                    String classValues = matcher.group(1);
+                    String[] classArray = classValues.split(" ");
+                    String styleValues = "";
+                    for (String classValue : classArray) {
+                        if (inputMap.containsKey(classValue)) {
+                            styleValues += inputMap.get(classValue) + ";";
+                        }
+                    }
+                    if (!styleValues.isEmpty()) {
+                        String styleAttribute = "style=\"" + styleValues.substring(0, styleValues.length() - 1) + "\"";
+                        matcher.appendReplacement(outputString, "class=\"" + classValues + " \" " + styleAttribute);
+                    }
+                }
+                matcher.appendTail(outputString);
+                return outputString.toString();
+            }
