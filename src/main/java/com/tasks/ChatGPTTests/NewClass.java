@@ -1044,3 +1044,29 @@ import java.util.List;
                 Docx4J.save(wordMLPackage, outputFile, Docx4J.FLAG_SAVE_ZIP_FILE);
                 return outputFile;
             }
+
+            // Read HTML file
+            File htmlFile = new File(inputHtmlPath);
+            InputStream inputStream = new FileInputStream(htmlFile);
+            String htmlContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+            // Create a new WordprocessingMLPackage
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+            // Configure XHTML Importer
+            XHTMLImporterImpl xhtmlImporter = new XHTMLImporterImpl(wordMLPackage);
+            xhtmlImporter.setHyperlinkStyle("Hyperlink");
+
+            // Convert HTML to docx
+            List<Object> convertedObjects = xhtmlImporter.convert(htmlContent, null);
+            for (Object o : convertedObjects) {
+                if (o instanceof P) {
+                    wordMLPackage.getMainDocumentPart().addObject(o);
+                }
+            }
+
+            // Save the docx file
+            File outputFile = new File(outputDocxPath);
+            Docx4J.save(wordMLPackage, outputFile, Docx4J.FLAG_SAVE_ZIP_FILE);
+            return outputFile;
+        }
