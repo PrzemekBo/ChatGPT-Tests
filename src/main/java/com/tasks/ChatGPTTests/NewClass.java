@@ -982,3 +982,44 @@ import org.docx4j.wml.Styles;
 
                 return outputFile;
             }
+
+
+
+            import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.PartName;
+import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.relationships.Relationship;
+import org.docx4j.wml.P;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+            public class HtmlToDocxConverter {
+
+                public static void main(String[] args) throws Exception {
+                    // Read HTML file
+                    String htmlFilePath = "path/to/your/html/file.html";
+                    File htmlFile = new File(htmlFilePath);
+                    InputStream inputStream = new FileInputStream(htmlFile);
+                    String htmlContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+                    // Create a new WordprocessingMLPackage
+                    WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+                    // Convert HTML to docx
+                    MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+                    List<P> paragraphs = documentPart.convertHtml(htmlContent, null, null);
+                    for (P paragraph : paragraphs) {
+                        documentPart.addObject(paragraph);
+                    }
+
+                    // Save the docx file
+                    String outputFilePath = "path/to/output/docx/file.docx";
+                    Docx4J.save(wordMLPackage, new File(outputFilePath), Docx4J.FLAG_SAVE_ZIP_FILE);
+                }
+            }
