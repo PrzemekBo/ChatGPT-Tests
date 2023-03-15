@@ -1023,3 +1023,24 @@ import java.util.List;
                     Docx4J.save(wordMLPackage, new File(outputFilePath), Docx4J.FLAG_SAVE_ZIP_FILE);
                 }
             }
+
+            public static File convertHtmlToDocx(String inputHtmlPath, String outputDocxPath) throws Exception {
+                // Read HTML file
+                File htmlFile = new File(inputHtmlPath);
+                InputStream inputStream = new FileInputStream(htmlFile);
+                String htmlContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+                // Create a new WordprocessingMLPackage
+                WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+                // Convert HTML to docx
+                List<P> paragraphs = wordMLPackage.getMainDocumentPart().convertHtml(htmlContent, null, null);
+                for (P paragraph : paragraphs) {
+                    wordMLPackage.getMainDocumentPart().addObject(paragraph);
+                }
+
+                // Save the docx file
+                File outputFile = new File(outputDocxPath);
+                Docx4J.save(wordMLPackage, outputFile, Docx4J.FLAG_SAVE_ZIP_FILE);
+                return outputFile;
+            }
