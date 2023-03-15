@@ -873,3 +873,56 @@ import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
 
                 return sb.toString();
             }
+
+
+            import java.io.File;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
+import org.docx4j.convert.in.xhtml.XHTMLImporter;
+
+            public static File htmlStringToDocx(String htmlString, String outputDocxFilePath) {
+                File outputFile = null;
+
+                try {
+                    // Create a new WordprocessingMLPackage
+                    WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+                    // Create an XHTMLImporter with the WordprocessingMLPackage
+                    XHTMLImporter xhtmlImporter = new XHTMLImporterImpl(wordMLPackage);
+
+                    // Convert the HTML string to a list of docx4j objects
+                    List<Object> convertedObjects = xhtmlImporter.convert(htmlString, null);
+
+                    // Add the converted objects to the WordprocessingMLPackage's main document part
+                    wordMLPackage.getMainDocumentPart().getContent().addAll(convertedObjects);
+
+                    // Save the WordprocessingMLPackage to a .docx file
+                    outputFile = new File(outputDocxFilePath);
+                    try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+                        Docx4J.save(wordMLPackage, outputStream, Docx4J.FLAG_SAVE_ZIP_FILE);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return outputFile;
+            }
+
+
+     <dependencies>
+  <dependency>
+    <groupId>org.docx4j</groupId>
+    <artifactId>docx4j</artifactId>
+    <version>11.3.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.docx4j</groupId>
+    <artifactId>docx4j-ImportXHTML</artifactId>
+    <version>11.3.2</version>
+  </dependency>
+</dependencies>
+
