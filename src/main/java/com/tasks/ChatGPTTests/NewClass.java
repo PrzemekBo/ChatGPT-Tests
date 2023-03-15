@@ -926,3 +926,13 @@ import org.docx4j.convert.in.xhtml.XHTMLImporter;
   </dependency>
 </dependencies>
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
+            public static String readHtmlFromFile(String inputFilePath) throws IOException {
+                File inputFile = new File(inputFilePath);
+                byte[] fileBytes = Files.readAllBytes(inputFile.toPath());
+                return new String(fileBytes, StandardCharsets.UTF_8);
+            }
