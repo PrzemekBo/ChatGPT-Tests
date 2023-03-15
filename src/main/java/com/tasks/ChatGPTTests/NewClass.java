@@ -1044,6 +1044,7 @@ import java.util.List;
                 Docx4J.save(wordMLPackage, outputFile, Docx4J.FLAG_SAVE_ZIP_FILE);
                 return outputFile;
             }
+            public static File convertHtmlToDocx(String inputHtmlPath, String outputDocxPath) throws Exception {
 
             // Read HTML file
             File htmlFile = new File(inputHtmlPath);
