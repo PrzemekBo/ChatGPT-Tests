@@ -1121,3 +1121,57 @@ import java.io.IOException;
                     Docx4J.save(wordMLPackage, new File(outputPath), Docx4J.FLAG_SAVE_ZIP_FILE);
                 }
             }
+
+
+
+            import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.apache.poi.xwpf.usermodel.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+
+            public class HtmlToDocxConverter {
+
+                public static File htmlToDocx(String html) throws IOException {
+                    // Parse the HTML content using Jsoup
+                    Document document = Jsoup.parse(html);
+
+                    // Create a new DOCX document
+                    XWPFDocument docxDocument = new XWPFDocument();
+
+                    // Iterate through the elements in the HTML content
+                    for (Node node : document.body().childNodes()) {
+                        if (node instanceof Element) {
+                            Element element = (Element) node;
+
+                            if (element.tagName().equalsIgnoreCase("p")) {
+                                XWPFParagraph docxParagraph = docxDocument.createParagraph();
+                                XWPFRun run = docxParagraph.createRun();
+                                run.setText(element.text());
+                            } else if (element.tagName().equalsIgnoreCase("img")) {
+                                String imageUrl = element.absUrl("src");
+                                XWPFParagraph docxParagraph = docxDocument.createParagraph();
+                                XWPFRun run = docxParagraph.createRun();
+
+                                try {
+                                    run.addPicture(new URL(imageUrl).openStream(), XWPFDocument.PICTURE_TYPE_JPEG, imageUrl, Units.toEMU(200), Units.toEMU(200));
+                                } catch (Exception e) {
+                                    System.err.println("Error adding image: " + imageUrl + ", " + e.getMessage());
+                                }
+                            }
+                        }
+                    }
+
+                    // Create a temporary file and save the DOCX document to it
+                    File tempFile = File.createTempFile("convertedDocx", ".docx");
+                    try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                        docxDocument.write(out);
+                    }
+
+                    return tempFile;
+                }
+            }
