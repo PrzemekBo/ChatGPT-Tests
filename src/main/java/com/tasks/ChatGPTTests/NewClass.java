@@ -1071,3 +1071,53 @@ import java.util.List;
             Docx4J.save(wordMLPackage, outputFile, Docx4J.FLAG_SAVE_ZIP_FILE);
             return outputFile;
         }
+
+
+        import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.wml.P;
+import org.docx4j.wml.R;
+import org.docx4j.wml.Text;
+
+import java.io.File;
+import java.io.IOException;
+
+            public class HtmlToDocx {
+
+                public static void main(String[] args) {
+                    String html = "<h1>Title</h1><p>Sample paragraph.</p>";
+                    try {
+                        htmlToDocx(html, "output.docx");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                public static void htmlToDocx(String html, String outputPath) throws Exception {
+                    // Parse HTML using jsoup
+                    Document document = Jsoup.parse(html);
+                    Elements elements = document.body().children();
+
+                    // Create a new docx file
+                    WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+                    // Iterate through HTML elements and add them to the docx
+                    for (Element element : elements) {
+                        P paragraph = wordMLPackage.getMainDocumentPart().createParagraphOfText("");
+                        R run = new R();
+                        Text text = new Text();
+                        text.setValue(element.text());
+                        run.getContent().add(text);
+                        paragraph.getContent().add(run);
+                        wordMLPackage.getMainDocumentPart().getContent().add(paragraph);
+                    }
+
+                    // Save the docx file
+                    Docx4J.save(wordMLPackage, new File(outputPath), Docx4J.FLAG_SAVE_ZIP_FILE);
+                }
+            }
